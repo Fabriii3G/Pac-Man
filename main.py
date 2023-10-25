@@ -76,6 +76,7 @@ class Fantasma:
         self.Velocidad_Fantasma = Velocidad_Fantasma
 
 def xdxd():
+    xd
 def Ejecute_juego():
     global window
     window.destroy()
