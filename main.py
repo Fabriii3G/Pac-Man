@@ -145,5 +145,5 @@ def ayuda():  # creacion de la ventana Ayuda
     window.title("Ayuda")
     window.configure(bg="black")
     window.mainloop()
-
+def prueba
 inicio()
