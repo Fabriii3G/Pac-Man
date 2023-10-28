@@ -98,22 +98,22 @@ def inicio(): #creacion de la ventana principal
     jugar=tk.PhotoImage(file="Jugar.png")
     boton = tk.Button(window, image=jugar, bg="black", command=Ejecute_juego)
     boton.pack()
-    boton.place(x=460, y=120)
+    boton.place(x=440, y=290)
     #Boton Salon de la Fama
     salon=tk.PhotoImage(file="puntajes.png")
     boton = tk.Button(window, image=salon, bg="black", command=salon_de_la_fama)
     boton.pack()
-    boton.place(x=460, y=220)
+    boton.place(x=440, y=400)
     #Boton Acerca De
     acerca = tk.PhotoImage(file="Info.png")
     boton = tk.Button(window, image=acerca, bg="black",command=acerca_de)
     boton.pack()
-    boton.place(x=460, y=320)
+    boton.place(x=240, y=350)
     #Boton Ayuda
     ayuda = tk.PhotoImage(file="ayuda.png")
     boton = tk.Button(window, image=ayuda, bg="black", command=ayuda)
     boton.pack()
-    boton.place(x=460, y=420)
+    boton.place(x=640, y=350)
     window.mainloop()
 def jugar():  # creacion de la ventana jugar
     global window
