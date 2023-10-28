@@ -89,25 +89,33 @@ def inicio(): #creacion de la ventana principal
     window.maxsize(1000,600)
     window.title("Pacman")
     window.configure(bg="black")
+    canva = tk.Canvas(window, width=1000, height=600, bg="black")
+    foto = tk.PhotoImage(master=canva, file="Fondo.png")
+    canva.create_image(500, 299, image=foto)
+    canva.pack()
+    canva.place(x=0, y=0)
     #Boton Jugar
-    boton = tk.Button(window, width=20, height=2, bg="black", fg="white", text="Jugar", command=Ejecute_juego)
+    jugar=tk.PhotoImage(file="Jugar.png")
+    boton = tk.Button(window, image=jugar, bg="black", command=Ejecute_juego)
     boton.pack()
     boton.place(x=460, y=120)
-    #v Salon de la Fama
-    boton = tk.Button(window, width=20, height=2, bg="black", fg="white", text="Salon de la Fama", command=salon_de_la_fama)
+    #Boton Salon de la Fama
+    salon=tk.PhotoImage(file="puntajes.png")
+    boton = tk.Button(window, image=salon, bg="black", command=salon_de_la_fama)
     boton.pack()
     boton.place(x=460, y=220)
     #Boton Acerca De
-    boton = tk.Button(window, width=20, height=2, bg="black", fg="white", text="Acerca De",command=acerca_de)
+    acerca = tk.PhotoImage(file="Info.png")
+    boton = tk.Button(window, image=acerca, bg="black",command=acerca_de)
     boton.pack()
     boton.place(x=460, y=320)
     #Boton Ayuda
-    boton = tk.Button(window, width=20, height=2, bg="black", fg="white", text="Ayuda", command=ayuda)
+    ayuda = tk.PhotoImage(file="ayuda.png")
+    boton = tk.Button(window, image=ayuda, bg="black", command=ayuda)
     boton.pack()
     boton.place(x=460, y=420)
-
     window.mainloop()
-def jugar():  # creacion de la ventana principal
+def jugar():  # creacion de la ventana jugar
     global window
     window.destroy()
     window = tk.Tk()
@@ -130,10 +138,17 @@ def acerca_de():  # creacion de la ventana Acerca De
     global window
     window.destroy()
     window = tk.Tk()
-    window.minsize(1000, 600)
-    window.maxsize(1000, 600)
+    window.minsize(900, 500)
+    window.maxsize(900, 500)
     window.title("Acerca De")
     window.configure(bg="black")
+    canva = tk.Canvas(window, width=900, height=500, bg="black")
+    foto = tk.PhotoImage(master=canva, file="acerca.png")
+    canva.create_image(450, 250, image=foto)
+    canva.pack()
+    canva.place(x=0, y=0)
+    botonSalir=tk.Button(window, height=1, width=5, text="Salir", command=salir)
+    botonSalir.place(x=428, y=465)
     window.mainloop()
 
 def ayuda():  # creacion de la ventana Ayuda
@@ -145,5 +160,10 @@ def ayuda():  # creacion de la ventana Ayuda
     window.title("Ayuda")
     window.configure(bg="black")
     window.mainloop()
+
+def salir(): #funcion general de devolver a la ventana anterior
+    global window
+    window.destroy()
+    inicio()
 
 inicio()
