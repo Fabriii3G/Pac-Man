@@ -44,10 +44,10 @@ matrizJuego=  [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 class Juego:
     #Atributos de la clase juego
     def __init__(self, Njuego, Tablero, Nivel, Score):
-        self.Njuego=Njuego
-        self.Tablero= Tablero
-        self.Nivel=Nivel
-        self.Score=Score
+        self.Njuego = 1
+        self.Tablero = matrizJuego
+        self.Nivel = 1
+        self.Score = 0
     #Metodos de la clase juego
     def iniciar_juego(self):
         self.window = tk.Tk()
@@ -60,11 +60,19 @@ class Juego:
 class Pacman:
     #Atributos de la clase pacman
     def __init__(self, Estado, PosX, PosY, Velocidad):
-        self.Estado=Estado
-        self.PosX=PosX
-        self.PosY=PosY
-        self.Velocidad=Velocidad
-    #Metodo de la clase pacman
+        self.Estado = Estado
+        self.PosX = PosX
+        self.PosY = PosY
+        self.Velocidad = Velocidad
+    #Metodos de la clase pacman
+    def mover_izquierda(self):
+        None
+    def mover_derecha(self):
+        None
+    def mover_arriba(self):
+        None
+    def mover_abajo(self):
+        None
 
 #Modelo de objetos de la clase Fantasma
 class Fantasma:
@@ -72,7 +80,7 @@ class Fantasma:
         self.Estado_Fantasma = Estado_Fantasma
         self.PosX_Fantasma = PosX_Fantasma
         self.PosY_Fantasma = PosY_Fantasma
-        Self.Color= Color
+        self.Color = Color
         self.Velocidad_Fantasma = Velocidad_Fantasma
 
 def Ejecute_juego():
