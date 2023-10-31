@@ -7,14 +7,9 @@ class Juego:
         self.Tablero = Tablero
         self.Nivel = Nivel
         self.Score = Score
+
     #Metodos de la clase juego
-    def iniciar_juego(self):
-        self.ventanaJuego = tk.Toplevel()
-        self.ventanaJuego.minsize(1000, 600)
-        self.ventanaJuego.maxsize(1000, 600)
-        self.ventanaJuego.title("Pac-Man")
-        self.ventanaJuego.mainloop()
-    def inicio(self):  # creacion de la ventana principal
+    def inicio(self):  # metodo de la ventana principal
         self.window = tk.Tk()
         self.window.minsize(1000, 600)
         self.window.maxsize(1000, 600)
@@ -27,7 +22,7 @@ class Juego:
         canva.place(x=0, y=0)
         # Boton Jugar
         jugar = tk.PhotoImage(file="Jugar.png")
-        boton = tk.Button(self.window, image=jugar, bg="black", command=self.Ejecute_juego)
+        boton = tk.Button(self.window, image=jugar, bg="black", command=self.iniciar_juego)
         boton.pack()
         boton.place(x=440, y=290)
         # Boton Salon de la Fama
@@ -47,30 +42,30 @@ class Juego:
         boton.place(x=640, y=350)
         self.window.mainloop()
 
-    def Ejecute_juego(self):
+    def iniciar_juego(self): # metodo de la ventana de juego
         self.window.withdraw()
-        self.iniciar_juego()
-    def jugar(self):  # creacion de la ventana jugar
-        self.window.withdraw()
-        self.jugar = tk.Tk()
-        self.jugar.minsize(1000, 600)
-        self.jugar.maxsize(1000, 600)
-        self.jugar.title("jugar")
-        self.jugar.configure(bg="black")
-        self.jugar.mainloop()
+        self.ventanaJuego = tk.Toplevel()
+        self.ventanaJuego.minsize(1000, 600)
+        self.ventanaJuego.maxsize(1000, 600)
+        self.ventanaJuego.title("Pac-Man")
+        botonSalir = tk.Button(self.ventanaJuego, height=1, width=5, text="Salir", command=self.salir_juego)
+        botonSalir.place(x=428, y=465)
+        self.ventanaJuego.mainloop()
 
-    def salon_de_la_fama(self):  # creacion de la ventana Salon de la fama
+    def salon_de_la_fama(self):  # metodo de la ventana Salon de la fama
         self.window.withdraw()
-        self.salon = tk.Tk()
+        self.salon = tk.Toplevel()
         self.salon.minsize(1000, 600)
         self.salon.maxsize(1000, 600)
         self.salon.title("Salon de la Fama")
         self.salon.configure(bg="black")
+        botonSalir = tk.Button(self.salon, height=1, width=5, text="Salir", command=self.salir_salon)
+        botonSalir.place(x=428, y=465)
         self.salon.mainloop()
 
-    def acerca_de(self):  # creacion de la ventana Acerca De
+    def acerca_de(self):  # metodo de la ventana Acerca De
         self.window.withdraw()
-        self.acerca = tk.Tk()
+        self.acerca = tk.Toplevel()
         self.acerca.minsize(900, 500)
         self.acerca.maxsize(900, 500)
         self.acerca.title("Acerca De")
@@ -80,15 +75,36 @@ class Juego:
         canva.create_image(450, 250, image=foto)
         canva.pack()
         canva.place(x=0, y=0)
-        botonSalir = tk.Button(self.acerca, height=1, width=5, text="Salir", command=salir)
+        botonSalir = tk.Button(self.acerca, height=1, width=5, text="Salir", command=self.salir_acerca)
         botonSalir.place(x=428, y=465)
         self.acerca.mainloop()
 
-    def ayuda(self):  # creacion de la ventana Ayuda
+    def ayuda(self):  # metodo de la ventana Ayuda
         self.window.withdraw()
         self.ayuda = tk.Toplevel()
         self.ayuda.minsize(1000, 600)
         self.ayuda.maxsize(1000, 600)
         self.ayuda.title("self.ayuda")
         self.ayuda.configure(bg="black")
+        botonSalir = tk.Button(self.ayuda, height=1, width=5, text="Salir", command=self.salir_ayuda)
+        botonSalir.place(x=428, y=465)
         self.ayuda.mainloop()
+
+    def salir_juego(self): # metodo de retornar a ventana principal
+        self.ventanaJuego.withdraw()
+        self.window.deiconify()
+
+    def salir_salon(self): # metodo de retornar a ventana principal
+        self.salon.withdraw()
+        self.window.deiconify()
+
+    def salir_acerca(self): # metodo de retornar a ventana principal
+        self.acerca.withdraw()
+        self.window.deiconify()
+
+    def salir_ayuda(self): # metodo de retornar a ventana principal
+        self.ayuda.withdraw()
+        self.window.deiconify()
+
+
+
