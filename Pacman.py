@@ -14,7 +14,7 @@ class Pacman:
             self.pacman = Pacman("Vivo", 0, 0, 1)
         return self.pacman
     def mover_izquierda(self):
-        None
+        self.PosX-=1
     def mover_derecha(self):
         None
     def mover_arriba(self):
