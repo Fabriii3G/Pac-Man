@@ -1,10 +1,5 @@
-from Matriz import Matriz
-from Juego import Juego
-from Pacman import Pacman
 from pynput import keyboard
 
-
-window=None
 matrizJuego=  [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -41,14 +36,35 @@ matrizJuego=  [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+class Matriz:
+    def __init__(self, matriz, Pacman):
+        self.matriz = matriz
+        self.pacman = Pacman
+
+    def actualizar_matriz(self):
+        for n in range(len(self.matriz)):
+            for j in range (len(self.matriz[0])):
+                if n == self.pacman.PosY and j == self.pacman.PosX:
+                    self.matriz[n][j] = "👾"
+                else:
+                    self.matriz[n][j] = "0"
+
+    def imprimir_matriz(self):
+        self.actualizar_matriz()
+        for fila in self.matriz:
+            for elemento in fila:
+                print(elemento, end="\t")
+            print()
+        print(f"posx:{self.pacman.PosX}, posy: {self.pacman.PosY}")
+        print("-------------------------------")
+
+    def teclas(self, tecla):
+        if tecla.char == 'd':
+            self.pacman.mover_derecha()
+        elif tecla.char == 'w':
+            self.pacman.mover_arriba()
+        elif tecla.char == 'k':
+            self.imprimir_matriz()
 
 
-if __name__ == "__main__":
 
-    Ventana = Juego(1, matrizJuego, 1, 0)
-    pacman = Pacman("Vivo", 0, 0, 1)
-    Tablero = Matriz(matrizJuego, pacman)
-    listener = keyboard.Listener(on_press=Tablero.teclas)
-    listener.start()  # start to listen on a separate thread
-    Tablero.imprimir_matriz()
-    Ventana.inicio()

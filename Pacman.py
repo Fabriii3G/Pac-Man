@@ -8,16 +8,11 @@ class Pacman:
         self.PosY = PosY
         self.Velocidad = Velocidad
     #Metodos de la clase pacman
-    @staticmethod
-    def get_instance(self):
-        if self.pacman == None:
-            self.pacman = Pacman("Vivo", 0, 0, 1)
-        return self.pacman
     def mover_izquierda(self):
         self.PosX-=1
     def mover_derecha(self):
-        None
+        self.PosX+=1
     def mover_arriba(self):
-        None
+        self.PosY-=1
     def mover_abajo(self):
-        None
+       self.PosY+=1
