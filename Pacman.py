@@ -1,7 +1,6 @@
 #Modelo de objetos de la clase pacman
 class Pacman:
     #Atributos de la clase pacman
-    pacman = None
     def __init__(self, Estado, PosX, PosY, Velocidad):
         self.Estado = Estado
         self.PosX = PosX
