@@ -1,5 +1,6 @@
-#Modelo de objetos de la clase juego
 import tkinter as tk
+import pygame
+#Modelo de objetos de la clase juego
 class Juego:
     #Atributos de la clase juego
     def __init__(self, Njuego, Tablero, Nivel, Score):
@@ -44,13 +45,28 @@ class Juego:
 
     def iniciar_juego(self): # metodo de la ventana de juego
         self.window.withdraw()
-        self.ventanaJuego = tk.Toplevel()
-        self.ventanaJuego.minsize(1000, 600)
-        self.ventanaJuego.maxsize(1000, 600)
-        self.ventanaJuego.title("Pac-Man")
-        botonSalir = tk.Button(self.ventanaJuego, height=1, width=5, text="Salir", command=self.salir_juego)
-        botonSalir.place(x=428, y=465)
-        self.ventanaJuego.mainloop()
+        pygame.init()
+        pantalla = pygame.display.set_mode((1000, 600))
+        pygame.display.set_caption("Pac-Man")
+
+        reloj = pygame.time.Clock()
+
+        while True:
+            for evento in pygame.event.get():
+                if evento.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+
+            # Lógica del juego y dibujo de la pantalla aquí
+
+            # Actualización de la pantalla
+            pantalla.fill((0, 0, 0))  # Rellenar la pantalla de negro
+            # Dibuja los elementos del juego aquí
+
+            pygame.display.flip()  # Actualiza la pantalla
+            reloj.tick(30)  # Controla la velocidad del juego (30 cuadros por segundo)
+
+    # ...
 
     def salon_de_la_fama(self):  # metodo de la ventana Salon de la fama
         self.window.withdraw()

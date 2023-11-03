@@ -7,6 +7,8 @@ class Pacman:
         self.PosY = PosY
         self.Velocidad = Velocidad
     #Metodos de la clase pacman
+    def set_estado(self, estado):
+        self.Estado=estado
     def mover_izquierda(self):
         self.PosX-=1
     def mover_derecha(self):
