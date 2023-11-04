@@ -29,12 +29,17 @@ matrizJuego= [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
               [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
               [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 class Matriz:
-    def __init__(self, matriz, Pacman, Fantasma):
+    def __init__(self, matriz, Pacman, Fantasmas):
         self.matriz = matriz
         self.pacman = Pacman
-        self.fantasma = Fantasma
+        self.fantasmas = Fantasmas
+        self.puntos = 0
         self.posicionesPacman= [self.pacman.PosX, self.pacman.PosY]
-        self.posicionesFantama = [self.fantasma.PosX_Fantasma, self.fantasma.PosY_Fantasma]
+        #self.posicionesFantama = [self.fantasma.PosX_Fantasma, self.fantasma.PosY_Fantasma]
+
+    def puntos(self):
+        if self.posicionesPacman == 1:
+            self.puntos+=1
 
     # metodo que actualiza la matriz
     def actualizar_matriz(self):
@@ -46,7 +51,10 @@ class Matriz:
 
         # Colocar el emoji de Pac-Man en su nueva posición
         self.matriz[self.pacman.PosY][self.pacman.PosX] = "🟡"
-        self.matriz[self.fantasma.PosY_Fantasma][self.fantasma.PosX_Fantasma] = "🔴"
+        i=0
+        while i < len(self.fantasmas):
+            self.matriz[self.fantasmas[i].PosY_Fantasma][self.fantasmas[i].PosX_Fantasma] = "🔴"
+            i+=1
 
     # metodo que imprime la matriz
     def imprimir_matriz(self):
@@ -57,7 +65,8 @@ class Matriz:
                 print(elemento, end="\t")
             print()
         print(f"PosicionX_Pacman:{self.pacman.PosX}, PosicionY_Pacman: {self.pacman.PosY}")
-        print(f"PosicionX_fantasma:{self.fantasma.PosX_Fantasma}, PosicionY_fantasma: {self.fantasma.PosY_Fantasma}")
+        #print(f"PosicionX_fantasma:{self.fantasma.PosX_Fantasma}, PosicionY_fantasma: {self.fantasma.PosY_Fantasma}")
+
         print("-------------------------------")
 
     # metodo para hilo que se encarga del movimiento de los fantasmas
@@ -81,22 +90,25 @@ class Matriz:
     # metodo para elegir la direccion en la que se mueve el fantasma
     def mover_fantasma(self):
         while True:
-            columnas = 29
-            filas = 25
-            direccion = random.choice(['Derecha', 'Izquierda', 'Abajo', 'Arriba'])
-            if direccion == 'Derecha' and self.fantasma.PosX_Fantasma + 1 < columnas:
-                if not self.detectar_colision_pared(self.fantasma.PosX_Fantasma + 1, self.fantasma.PosY_Fantasma):
-                    self.fantasma.PosX_Fantasma += 1
-            elif direccion == 'Izquierda' and self.fantasma.PosX_Fantasma - 1 >= 0:
-                if not self.detectar_colision_pared(self.fantasma.PosX_Fantasma - 1, self.fantasma.PosY_Fantasma):
-                    self.fantasma.PosX_Fantasma -= 1
-            elif direccion == 'Abajo' and self.fantasma.PosY_Fantasma + 1 < filas:
-                if not self.detectar_colision_pared(self.fantasma.PosX_Fantasma, self.fantasma.PosY_Fantasma + 1):
-                    self.fantasma.PosY_Fantasma += 1
-            elif direccion == 'Arriba' and self.fantasma.PosY_Fantasma - 1 >= 0:
-                if not self.detectar_colision_pared(self.fantasma.PosX_Fantasma, self.fantasma.PosY_Fantasma - 1):
-                    self.fantasma.PosY_Fantasma -= 1
-            time.sleep(1)
+            i=0
+            while i<len(self.fantasmas):
+                columnas = 29
+                filas = 25
+                direccion = random.choice(['Derecha', 'Izquierda', 'Abajo', 'Arriba'])
+                if direccion == 'Derecha' and self.fantasmas[i].PosX_Fantasma + 1 < columnas:
+                    if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma + 1, self.fantasmas[i].PosY_Fantasma):
+                        self.fantasmas[i].PosX_Fantasma += 1
+                elif direccion == 'Izquierda' and self.fantasmas[i].PosX_Fantasma - 1 >= 0:
+                    if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma - 1, self.fantasmas[i].PosY_Fantasma):
+                        self.fantasmas[i].PosX_Fantasma -= 1
+                elif direccion == 'Abajo' and self.fantasmas[i].PosY_Fantasma + 1 < filas:
+                    if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma, self.fantasmas[i].PosY_Fantasma + 1):
+                        self.fantasmas[i].PosY_Fantasma += 1
+                elif direccion == 'Arriba' and self.fantasmas[i].PosY_Fantasma - 1 >= 0:
+                    if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma, self.fantasmas[i].PosY_Fantasma - 1):
+                        self.fantasmas[i].PosY_Fantasma -= 1
+                i+=1
+                time.sleep(0.1)
 
     # metodo para detectar las teclas en la consola
     def teclas(self, tecla):
@@ -122,7 +134,3 @@ class Matriz:
                 print("Hay pared")
         elif tecla.char == 'k':
             self.imprimir_matriz()
-
-
-
-

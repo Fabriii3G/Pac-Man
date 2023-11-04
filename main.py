@@ -36,11 +36,17 @@ matrizJuego= [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 if __name__ == "__main__":
 
     Ventana = Juego(1, matrizJuego, 1, 0)
+    Ventana.inicio()
     pacman = Pacman("Vivo", 1, 1, 1)
-    fantasma = Fantasma("Vivo", 2, 1, "rojo", 1) #13, 12 posicion
-    Tablero = Matriz(matrizJuego, pacman, fantasma)
+    fantasma1 = Fantasma("Vivo", 2, 1, "rojo", 1) #13, 12 posicion
+    fantasma2 = Fantasma("Vivo", 3, 1, "verde", 1)  # 13, 12 posicion
+    fantasma3 = Fantasma("Vivo", 4, 1, "azul", 1)  # 13, 12 posicion
+    fantasma4 = Fantasma("Vivo", 5, 1, "morado", 1)  # 13, 12 posicion
+    lista = [fantasma4, fantasma3, fantasma2, fantasma1]
+    Tablero = Matriz(matrizJuego, pacman, lista)
     listener = keyboard.Listener(on_press=Tablero.teclas)
     listener.start()
-    #Tablero.hilo()
     Tablero.imprimir_matriz()
+    Tablero.hilo()
+
     Ventana.inicio()

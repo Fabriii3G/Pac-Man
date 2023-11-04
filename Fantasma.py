@@ -22,3 +22,5 @@ class Fantasma:
     def mover_abajo(self):
         self.PosY_Fantasma += 1
 
+    def prueba(self):
+        print("funciona")
