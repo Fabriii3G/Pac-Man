@@ -48,7 +48,7 @@ class Juego:
 
         # Configuración de Pygame
         pygame.init()
-        pantalla = pygame.display.set_mode((1000, 600))
+        pantalla = pygame.display.set_mode((1500, 700))
         pygame.display.set_caption("Pac-Man")
 
         reloj = pygame.time.Clock()
