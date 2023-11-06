@@ -11,32 +11,6 @@ import threading
 # tratar de empezar a graficar el juego
 # entender bien el funcionamiento de los diferentes tipos de alimentos
 
-matrizJuego= [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0],
-              [0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0],
-              [0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
-              [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-              [0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
-              [0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0],
-              [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0],
-              [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-              [0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0],
-              [0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-              [0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0],
-              [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
-              [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
-              [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-              [0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-              [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-              [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-              [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-              [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-              [0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-              [0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0],
-              [0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0],
-              [0, 3, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 3, 0],
-              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 class Matriz:
     def __init__(self, matriz, Pacman, Fantasmas):
         self.matriz = matriz
@@ -51,12 +25,13 @@ class Matriz:
         # Buscar y eliminar el emoji anterior de Pac-Man en la matriz
         for n in range(len(self.matriz)):
             for j in range(len(self.matriz[0])):
-                if self.matriz[n][j] == "🟡" or self.matriz[n][j] == "🔴":
+                if self.matriz[n][j] == "🟡":
                     self.matriz[n][j] = 4  # Reemplazar "🟡" por 4
                 elif self.matriz[n][j] == "🔴":
-                    self.matriz[n][j] = 1 # Reemplazar "🔴" por 4
+                    self.matriz[n][j] = 1 # Reemplazar "🔴" por 1
         # Colocar el emoji de Pac-Man en su nueva posición
         self.matriz[self.pacman.PosY][self.pacman.PosX] = "🟡"
+
         i=0
         while i < len(self.fantasmas):
             self.matriz[self.fantasmas[i].PosY_Fantasma][self.fantasmas[i].PosX_Fantasma] = "🔴"
@@ -64,7 +39,6 @@ class Matriz:
 
     # metodo que imprime la matriz
     def imprimir_matriz(self):
-        print()
         self.actualizar_matriz()
         for fila in self.matriz:
             for elemento in fila:
@@ -91,7 +65,7 @@ class Matriz:
     def colision_pacman_y_fantasmas(self):
         i = 0
         while i<len(self.fantasmas):
-            if self.pacman.PosX == self.fantasmas[i].PosX_Fantasma and self.pacman.PosX == self.fantasmas[i].PosX_Fantasma:
+            if self.pacman.PosX == self.fantasmas[i].PosX_Fantasma and self.pacman.PosY == self.fantasmas[i].PosY_Fantasma:
                 self.matriz[self.posicionesPacman[1]][self.posicionesPacman[0]] = 1
                 self.pacman.set_estado("Muerto")
                 print("Pacman ha muerto")
@@ -100,7 +74,7 @@ class Matriz:
 
         # metodo para hilo que se encarga del movimiento de los fantasmas
     def hilo(self):
-        hilo = threading.Thread(target=self.mover_fantasma())
+        hilo = threading.Thread(target=self.mover_fantasma)
         hilo.daemon = True
         hilo.start()
 

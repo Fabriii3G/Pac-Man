@@ -1,3 +1,4 @@
+import sys
 import tkinter as tk
 import pygame
 #Modelo de objetos de la clase juego
@@ -16,6 +17,7 @@ class Juego:
         self.window.maxsize(1000, 600)
         self.window.title("Pacman")
         self.window.configure(bg="black")
+        print('Prueba')
         canva = tk.Canvas(self.window, width=1000, height=600, bg="black")
         foto = tk.PhotoImage(master=canva, file="Fondo.png")
         canva.create_image(500, 299, image=foto)
@@ -46,63 +48,34 @@ class Juego:
     def iniciar_juego(self): # metodo de la ventana de juego
         self.window.withdraw()
 
-        # Configuración de Pygame
         pygame.init()
-        pantalla = pygame.display.set_mode((1500, 700))
+        self.pantalla = pygame.display.set_mode((900, 780))
         pygame.display.set_caption("Pac-Man")
 
         reloj = pygame.time.Clock()
-
-        matrizJuego = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                       [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0],
-                       [0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
-                       [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-                       [0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0],
-                       [0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0],
-                       [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0],
-                       [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-                       [0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0],
-                       [0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-                       [0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0],
-                       [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
-                       [0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
-                       [0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-                       [0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0],
-                       [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0],
-                       [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-                       [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-                       [0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0],
-                       [0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0],
-                       [0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0],
-                       [0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-                       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
         while True:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     pygame.quit()
-                    return
+                    sys.exit()
+            self.pantalla.fill((0, 0, 0))
+            self.dibujar_matriz()
+            self.Tablero.actualizard_matriz()
+            pygame.display.update()
+            reloj.tick(60)
 
-            # Lógica del juego y dibujo de la pantalla aquí
-            for fila in range(len(matrizJuego)):
-                for columna in range(len(matrizJuego[0])):
-                    if matrizJuego[fila][columna] == 0:
-                        color = (0, 0, 0)  # Pared (negro)
-                    elif matrizJuego[fila][columna] == 1:
-                        color = (255, 255, 255)  # Camino (blanco)
-                    else:
-                        color = (0, 0, 255)  # Otros elementos (azul)
-
-                    pygame.draw.rect(pantalla, color, (columna * 20, fila * 20, 20, 20))
-
-                pygame.display.flip()  # Actualiza la pantalla
-                reloj.tick(30)  # Controla la velocidad del juego (30 cuadros por segundo)
-
-                # ...
-
+    def dibujar_matriz(self):
+        pacman_imagen = pygame.image.load("pacman.png")
+        fantasma_imagen = pygame.image.load("fantasma.png")
+        pared_imagen = pygame.image.load("pared.png")
+        punto_imagen = pygame.image.load("Punto.png")
+        for fila in range(len(self.Tablero.matriz)):
+            for columna in range(len(self.Tablero.matriz[0])):
+                if self.Tablero.matriz[fila][columna] == 0:
+                    self.pantalla.blit(punto_imagen,(columna * 30, fila * 30))
+                elif self.Tablero.matriz[fila][columna] == '🟡':
+                    self.pantalla.blit(pacman_imagen, (columna * 30, fila * 30))
     def salon_de_la_fama(self):  # metodo de la ventana Salon de la fama
         self.window.withdraw()
         self.salon = tk.Toplevel()
