@@ -44,7 +44,7 @@ if __name__ == "__main__":
     listener = keyboard.Listener(on_press=Tablero.teclas)
     listener.start()
     Tablero.imprimir_matriz()
-    #Tablero.hilo()
+    Tablero.hilo()
 
     Ventana = Juego(1, Tablero, 1, 0)
     Ventana.inicio()

@@ -61,7 +61,7 @@ class Juego:
                     sys.exit()
             self.pantalla.fill((0, 0, 0))
             self.dibujar_matriz()
-            self.Tablero.actualizard_matriz()
+            self.Tablero.actualizar_matriz()
             pygame.display.update()
             reloj.tick(60)
 
