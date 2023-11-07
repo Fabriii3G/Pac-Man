@@ -72,7 +72,7 @@ class Juego:
         fantasmaC_imagen = pygame.image.load("celeste (1).png")
         fantasmar_imagen = pygame.image.load("rosado (1).png")
         punto_imagen = pygame.image.load("punto.png")
-        pared_imagen = pygame.image.load("Pared_azul.png")
+        pared_imagen = pygame.image.load("pared_prueba_1.png")
         for fila in range(len(self.Tablero.matriz)):
             for columna in range(len(self.Tablero.matriz[0])):
                 if self.Tablero.matriz[fila][columna] == 0:
