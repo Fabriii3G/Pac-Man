@@ -27,15 +27,15 @@ class Matriz:
             for j in range(len(self.matriz[0])):
                 if self.matriz[n][j] == "🟡":
                     self.matriz[n][j] = 4  # Reemplazar "🟡" por 4
-                elif self.matriz[n][j] == "🔴":
-                    self.matriz[n][j] = 1 # Reemplazar "🔴" por 1
+                elif self.matriz[n][j] == "R" or self.matriz[n][j] == "C" or self.matriz[n][j] == "N" or self.matriz[n][j] == "r":
+                    self.matriz[n][j] = 1 # Reemplazar fantasmas por 1
         # Colocar el emoji de Pac-Man en su nueva posición
         self.matriz[self.pacman.PosY][self.pacman.PosX] = "🟡"
+        self.matriz[self.fantasmas[0].PosY_Fantasma][self.fantasmas[0].PosX_Fantasma] = "R"
+        self.matriz[self.fantasmas[1].PosY_Fantasma][self.fantasmas[1].PosX_Fantasma] = "C"
+        self.matriz[self.fantasmas[2].PosY_Fantasma][self.fantasmas[2].PosX_Fantasma] = "N"
+        self.matriz[self.fantasmas[3].PosY_Fantasma][self.fantasmas[3].PosX_Fantasma] = "r"
 
-        i=0
-        while i < len(self.fantasmas):
-            self.matriz[self.fantasmas[i].PosY_Fantasma][self.fantasmas[i].PosX_Fantasma] = "🔴"
-            i+=1
 
     # metodo que imprime la matriz
     def imprimir_matriz(self):

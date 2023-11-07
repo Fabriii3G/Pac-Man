@@ -67,8 +67,11 @@ class Juego:
 
     def dibujar_matriz(self):
         pacman_imagen = pygame.image.load("pacman.png")
-        fantasma_imagen = pygame.image.load("fantasma.png")
-
+        fantasmaR_imagen = pygame.image.load("rojo.png")
+        fantasmaN_imagen = pygame.image.load("naranja (1).png")
+        fantasmaC_imagen = pygame.image.load("celeste (1).png")
+        fantasmar_imagen = pygame.image.load("rosado (1).png")
+        punto_imagen = pygame.image.load("punto.png")
         pared_imagen = pygame.image.load("Pared_azul.png")
         for fila in range(len(self.Tablero.matriz)):
             for columna in range(len(self.Tablero.matriz[0])):
@@ -76,6 +79,17 @@ class Juego:
                     self.pantalla.blit(pared_imagen,(columna * 30, fila * 30))
                 elif self.Tablero.matriz[fila][columna] == '🟡':
                     self.pantalla.blit(pacman_imagen, (columna * 30, fila * 30))
+                elif self.Tablero.matriz[fila][columna] == 1 :
+                    self.pantalla.blit(punto_imagen, (columna * 30, fila * 30))
+                elif self.Tablero.matriz[fila][columna] == 'R' :
+                    self.pantalla.blit(fantasmaR_imagen, (columna * 30, fila * 30))
+                elif self.Tablero.matriz[fila][columna] == 'N' :
+                    self.pantalla.blit(fantasmaN_imagen, (columna * 30, fila * 30))
+                elif self.Tablero.matriz[fila][columna] == 'C':
+                    self.pantalla.blit(fantasmaC_imagen, (columna * 30, fila * 30))
+                elif self.Tablero.matriz[fila][columna] == 'r' :
+                    self.pantalla.blit(fantasmar_imagen, (columna * 30, fila * 30))
+
     def salon_de_la_fama(self):  # metodo de la ventana Salon de la fama
         self.window.withdraw()
         self.salon = tk.Toplevel()
