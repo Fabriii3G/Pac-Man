@@ -68,12 +68,12 @@ class Juego:
     def dibujar_matriz(self):
         pacman_imagen = pygame.image.load("pacman.png")
         fantasma_imagen = pygame.image.load("fantasma.png")
-        pared_imagen = pygame.image.load("pared.png")
-        punto_imagen = pygame.image.load("Punto.png")
+
+        pared_imagen = pygame.image.load("Pared_azul.png")
         for fila in range(len(self.Tablero.matriz)):
             for columna in range(len(self.Tablero.matriz[0])):
                 if self.Tablero.matriz[fila][columna] == 0:
-                    self.pantalla.blit(punto_imagen,(columna * 30, fila * 30))
+                    self.pantalla.blit(pared_imagen,(columna * 30, fila * 30))
                 elif self.Tablero.matriz[fila][columna] == '🟡':
                     self.pantalla.blit(pacman_imagen, (columna * 30, fila * 30))
     def salon_de_la_fama(self):  # metodo de la ventana Salon de la fama
