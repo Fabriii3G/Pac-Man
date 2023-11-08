@@ -1,14 +1,16 @@
 import sys
 import tkinter as tk
 import pygame
+import tkinter.messagebox
 #Modelo de objetos de la clase juego
 class Juego:
     #Atributos de la clase juego
-    def __init__(self, Njuego, Tablero, Nivel, Score):
+    def __init__(self, Njuego, Tablero, Nivel, Score, pacman):
         self.Njuego = Njuego
         self.Tablero = Tablero
         self.Nivel = Nivel
         self.Score = Score
+        self.pacman = pacman
 
     #Metodos de la clase juego
     def inicio(self):  # metodo de la ventana principal
@@ -49,21 +51,32 @@ class Juego:
         self.window.withdraw()
 
         pygame.init()
-        self.pantalla = pygame.display.set_mode((900, 780))
+        self.pantalla = pygame.display.set_mode((1200, 780))
         pygame.display.set_caption("Pac-Man")
-
-        reloj = pygame.time.Clock()
-
+        fuente = pygame.font.Font("Minecraftia-Regular.ttf", 15)
+        label = fuente.render("Puntaje: 0", True, (255, 255, 255))
+        label_rect = label.get_rect()
+        label_rect.topright = (1010, 10)
+        pausa = True
         while True:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            self.pantalla.fill((0, 0, 0))
-            self.dibujar_matriz()
-            self.Tablero.actualizar_matriz()
-            pygame.display.update()
-            reloj.tick(60)
+                elif evento.type == pygame.KEYDOWN:
+                    if evento.key == pygame.K_ESCAPE:
+                        pausa = not pausa
+            if pausa:
+                self.pantalla.fill((0, 0, 0))
+                self.dibujar_matriz()
+                self.Tablero.actualizar_matriz()
+                label = fuente.render(f"Puntaje: {self.Tablero.puntos}", True, (255, 255, 255))
+                self.pantalla.blit(label, label_rect)
+                pygame.display.update()
+                reloj = pygame.time.Clock()
+                reloj.tick(60)
+
+
 
     def dibujar_matriz(self):
         pacman_imagen = pygame.image.load("pacman.png")
@@ -71,8 +84,10 @@ class Juego:
         fantasmaN_imagen = pygame.image.load("naranja (1).png")
         fantasmaC_imagen = pygame.image.load("celeste (1).png")
         fantasmar_imagen = pygame.image.load("rosado (1).png")
+        cereza_imagen = pygame.image.load("cereza (1).png")
         punto_imagen = pygame.image.load("punto.png")
-        pared_imagen = pygame.image.load("pared_prueba_1.png")
+        capsula_imagen = pygame.image.load("capsula (1).png")
+        pared_imagen = pygame.image.load("muro (1).png")
         for fila in range(len(self.Tablero.matriz)):
             for columna in range(len(self.Tablero.matriz[0])):
                 if self.Tablero.matriz[fila][columna] == 0:
@@ -89,6 +104,10 @@ class Juego:
                     self.pantalla.blit(fantasmaC_imagen, (columna * 30, fila * 30))
                 elif self.Tablero.matriz[fila][columna] == 'r' :
                     self.pantalla.blit(fantasmar_imagen, (columna * 30, fila * 30))
+                elif self.Tablero.matriz[fila][columna] == 3 :
+                    self.pantalla.blit(cereza_imagen, (columna * 30, fila * 30))
+                elif self.Tablero.matriz[fila][columna] == 2 :
+                    self.pantalla.blit(capsula_imagen, (columna * 30, fila * 30))
 
     def salon_de_la_fama(self):  # metodo de la ventana Salon de la fama
         self.window.withdraw()

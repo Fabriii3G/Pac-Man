@@ -18,6 +18,7 @@ class Matriz:
         self.fantasmas = Fantasmas
         self.puntos = 0
         self.posicionesPacman= [self.pacman.PosX, self.pacman.PosY]
+        self.comerFantasmas = False
         #self.posicionesFantama = [self.fantasma.PosX_Fantasma, self.fantasma.PosY_Fantasma]
 
     # metodo que actualiza la matriz
@@ -53,8 +54,14 @@ class Matriz:
     # metodo de puntaje
     def puntaje(self):
         if self.matriz[self.pacman.PosY][self.pacman.PosX] == 1:
-            self.puntos += 5
+            self.puntos += 1
             self.matriz[self.pacman.PosY][self.pacman.PosX] = 4 # Elimina el punto de la celda
+        elif self.matriz[self.pacman.PosY][self.pacman.PosX] == 3:
+            self.puntos += 5
+
+    def capsula(self):
+        if self.matriz[self.pacman.PosY][self.pacman.PosX] == 1:
+            self.comerFantasmas = True
 
 
     # metodo que detecta si hay pared antes de hacer el movimiento
@@ -64,13 +71,23 @@ class Matriz:
     # metodo que detecta la colision entre pacman y los fantasmas
     def colision_pacman_y_fantasmas(self):
         i = 0
-        while i<len(self.fantasmas):
-            if self.pacman.PosX == self.fantasmas[i].PosX_Fantasma and self.pacman.PosY == self.fantasmas[i].PosY_Fantasma:
-                self.matriz[self.posicionesPacman[1]][self.posicionesPacman[0]] = 1
-                self.pacman.set_estado("Muerto")
-                print("Pacman ha muerto")
-                return True
-            i +=1
+        if self.comerFantasmas==False:
+            while i<len(self.fantasmas):
+                if self.pacman.PosX == self.fantasmas[i].PosX_Fantasma and self.pacman.PosY == self.fantasmas[i].PosY_Fantasma:
+                    self.matriz[self.posicionesPacman[1]][self.posicionesPacman[0]] = 1
+                    self.pacman.set_estado("Muerto")
+                    print("Pacman ha muerto")
+                    return True
+                i +=1
+        elif self.comerFantasmas==True:
+            while i < len(self.fantasmas):
+                if self.pacman.PosX == self.fantasmas[i].PosX_Fantasma and self.pacman.PosY == self.fantasmas[i].PosY_Fantasma:
+                    self.matriz[self.fantasmas[i].PosY_Fantasma][self.fantasmas[i].PosX_Fantasma] = 4
+                    self.fantasmas[i].set_estado("Muerto")
+                    print("Fantasma ha muerto")
+                    return True
+                i += 1
+
 
         # metodo para hilo que se encarga del movimiento de los fantasmas
     def hilo(self):
@@ -133,3 +150,5 @@ class Matriz:
                 print("Hay pared")
         elif tecla.char == 'k':
             self.imprimir_matriz()
+        elif tecla == tecla.esc:
+            None
