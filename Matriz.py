@@ -19,6 +19,8 @@ class Matriz:
         self.puntos = 0
         self.posicionesPacman= [self.pacman.PosX, self.pacman.PosY]
         self.comerFantasmas = False
+        self.finJuego = False
+        self.pausa=False
         #self.posicionesFantama = [self.fantasma.PosX_Fantasma, self.fantasma.PosY_Fantasma]
 
     # metodo que actualiza la matriz
@@ -32,10 +34,8 @@ class Matriz:
                     self.matriz[n][j] = 1 # Reemplazar fantasmas por 1
         # Colocar el emoji de Pac-Man en su nueva posición
         self.matriz[self.pacman.PosY][self.pacman.PosX] = "🟡"
-        self.matriz[self.fantasmas[0].PosY_Fantasma][self.fantasmas[0].PosX_Fantasma] = "R"
-        self.matriz[self.fantasmas[1].PosY_Fantasma][self.fantasmas[1].PosX_Fantasma] = "C"
-        self.matriz[self.fantasmas[2].PosY_Fantasma][self.fantasmas[2].PosX_Fantasma] = "N"
-        self.matriz[self.fantasmas[3].PosY_Fantasma][self.fantasmas[3].PosX_Fantasma] = "r"
+        for fantasma in self.fantasmas:
+            self.matriz[fantasma.PosY_Fantasma][fantasma.PosX_Fantasma] = fantasma.Color
 
 
     # metodo que imprime la matriz
@@ -58,9 +58,12 @@ class Matriz:
             self.puntos += 50
 
     def capsula(self):
-        if self.matriz[self.pacman.PosY][self.pacman.PosX] == 1:
+        if self.matriz[self.pacman.PosY][self.pacman.PosX] == 2:
             self.comerFantasmas = True
             self.puntos +=100
+            time.sleep(10)
+            self.comerFantasmas = False
+            print('si')
 
 
     # metodo que detecta si hay pared antes de hacer el movimiento
@@ -82,8 +85,8 @@ class Matriz:
             while i < len(self.fantasmas):
                 if self.pacman.PosX == self.fantasmas[i].PosX_Fantasma and self.pacman.PosY == self.fantasmas[i].PosY_Fantasma:
                     self.matriz[self.fantasmas[i].PosY_Fantasma][self.fantasmas[i].PosX_Fantasma] = 4
-                    self.fantasmas[i].set_estado("Muerto")
-                    print("Fantasma ha muerto")
+                    self.fantasmas.remove(self.fantasmas[i])
+                    print("Fantasma muerto")
                     return True
                 i += 1
 
@@ -96,27 +99,31 @@ class Matriz:
 
     # metodo para elegir la direccion en la que se mueve el fantasma
     def mover_fantasma(self):
-        while True:
+        while not self.finJuego:
             i=0
-            while i<len(self.fantasmas):
-                columnas = 29
-                filas = 25
-                direccion = random.choice(['Derecha', 'Izquierda', 'Abajo', 'Arriba'])
-                if direccion == 'Derecha' and self.fantasmas[i].PosX_Fantasma + 1 < columnas:
-                    if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma + 1, self.fantasmas[i].PosY_Fantasma):
-                        self.colision_pacman_y_fantasmas()
-                        self.fantasmas[i].PosX_Fantasma += 1
-                elif direccion == 'Izquierda' and self.fantasmas[i].PosX_Fantasma - 1 >= 0:
-                    if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma - 1, self.fantasmas[i].PosY_Fantasma):
-                        self.colision_pacman_y_fantasmas()
-                        self.fantasmas[i].PosX_Fantasma -= 1
-                elif direccion == 'Abajo' and self.fantasmas[i].PosY_Fantasma + 1 < filas:
-                    if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma, self.fantasmas[i].PosY_Fantasma + 1):
-                        self.colision_pacman_y_fantasmas()
-                        self.fantasmas[i].PosY_Fantasma += 1
-                elif direccion == 'Arriba' and self.fantasmas[i].PosY_Fantasma - 1 >= 0:
-                    if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma, self.fantasmas[i].PosY_Fantasma - 1):
-                        self.colision_pacman_y_fantasmas()
-                        self.fantasmas[i].PosY_Fantasma -= 1
-                i+=1
-                time.sleep(0.05)
+            if not self.pausa:
+                while i<len(self.fantasmas):
+                    try:
+                        columnas = 29
+                        filas = 25
+                        direccion = random.choice(['Derecha', 'Izquierda', 'Abajo', 'Arriba'])
+                        if direccion == 'Derecha' and self.fantasmas[i].PosX_Fantasma + 1 < columnas:
+                            if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma + 1, self.fantasmas[i].PosY_Fantasma):
+                                self.colision_pacman_y_fantasmas()
+                                self.fantasmas[i].PosX_Fantasma += 1
+                        elif direccion == 'Izquierda' and self.fantasmas[i].PosX_Fantasma - 1 >= 0:
+                            if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma - 1, self.fantasmas[i].PosY_Fantasma):
+                                self.colision_pacman_y_fantasmas()
+                                self.fantasmas[i].PosX_Fantasma -= 1
+                        elif direccion == 'Abajo' and self.fantasmas[i].PosY_Fantasma + 1 < filas:
+                            if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma, self.fantasmas[i].PosY_Fantasma + 1):
+                                self.colision_pacman_y_fantasmas()
+                                self.fantasmas[i].PosY_Fantasma += 1
+                        elif direccion == 'Arriba' and self.fantasmas[i].PosY_Fantasma - 1 >= 0:
+                            if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma, self.fantasmas[i].PosY_Fantasma - 1):
+                                self.colision_pacman_y_fantasmas()
+                                self.fantasmas[i].PosY_Fantasma -= 1
+                        i+=1
+                        time.sleep(0.05)
+                    except:
+                        pass

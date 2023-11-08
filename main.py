@@ -6,7 +6,7 @@ from Fantasma import Fantasma
 
 window=None
 matrizJuego= [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-              [0, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0],
+              [0, 4, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0],
               [0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0],
               [0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0],
               [0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0],
@@ -35,10 +35,10 @@ matrizJuego= [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
 if __name__ == "__main__":
     pacman = Pacman("Vivo", 1, 1, 1)
-    fantasma1 = Fantasma("Vivo", 13, 11, "rojo", 1) #13, 12 posicion
-    fantasma2 = Fantasma("Vivo", 13, 12, "verde", 1)  # 13, 12 posicion
-    fantasma3 = Fantasma("Vivo", 15, 11, "azul", 1)  # 13, 12 posicion
-    fantasma4 = Fantasma("Vivo", 15, 12, "morado", 1)  # 13, 12 posicion
+    fantasma1 = Fantasma("Vivo", 13, 11, "R", 1) #13, 12 posicion
+    fantasma2 = Fantasma("Vivo", 13, 12, "C", 1)  # 13, 12 posicion
+    fantasma3 = Fantasma("Vivo", 15, 11, "N", 1)  # 13, 12 posicion
+    fantasma4 = Fantasma("Vivo", 15, 12, "r", 1)  # 13, 12 posicion
     lista = [fantasma4, fantasma3, fantasma2, fantasma1]
     Tablero = Matriz(matrizJuego, pacman, lista)
     Tablero.imprimir_matriz()

@@ -1,4 +1,6 @@
 import sys
+import threading
+import time
 import tkinter as tk
 import pygame
 import tkinter.messagebox
@@ -25,8 +27,8 @@ class Juego:
         canva.pack()
         canva.place(x=0, y=0)
         # Boton Jugar
-        jugar = tk.PhotoImage(file="Jugar.png")
-        boton = tk.Button(self.window, image=jugar, bg="black", command=self.iniciar_juego)
+        self.jugar = tk.PhotoImage(file="Jugar.png")
+        boton = tk.Button(self.window, image=self.jugar, bg="black", command=self.iniciar_juego)
         boton.pack()
         boton.place(x=440, y=290)
         # Boton Salon de la Fama
@@ -62,25 +64,38 @@ class Juego:
                 if evento.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                elif self.pacman.Estado == "Muerto":
+                    pygame.display.quit()
+                    self.Tablero.finJuego = True
+                    self.window.deiconify()
                 elif evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_ESCAPE:
                         pausa = not pausa
+                        self.Tablero.pausa = not self.Tablero.pausa
                     elif evento.key == pygame.K_d:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas():
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and pausa:
+                            self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_derecha()
                             self.Tablero.puntaje()
+                            self.capsulaJuego()
                     elif evento.key == pygame.K_a:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas():
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and pausa:
+                            self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_izquierda()
                             self.Tablero.puntaje()
+                            self.capsulaJuego()
                     elif evento.key == pygame.K_w:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas():
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas() and pausa:
+                            self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_arriba()
                             self.Tablero.puntaje()
+                            self.capsulaJuego()
                     elif evento.key == pygame.K_s:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas():
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas() and pausa:
+                            self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_abajo()
                             self.Tablero.puntaje()
+                            self.capsulaJuego()
                     elif evento.key == pygame.K_k:
                         self.imprimir_matriz()
             if pausa:
@@ -92,6 +107,11 @@ class Juego:
                 pygame.display.update()
                 reloj = pygame.time.Clock()
                 reloj.tick(60)
+
+    def capsulaJuego(self):
+        hilo=threading.Thread(target=self.Tablero.capsula)
+        hilo.daemon = True
+        hilo.start()
 
 
     def dibujar_matriz(self):

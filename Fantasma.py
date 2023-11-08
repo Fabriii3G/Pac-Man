@@ -10,8 +10,6 @@ class Fantasma:
         self.Velocidad_Fantasma = Velocidad_Fantasma
 
     #Metodos de la clase fantasma
-    def set_estado(self, estado):
-        self.Estado=estado
     def mover_izquierda(self):
         self.PosY_Fantasma -= 1
 
@@ -23,6 +21,3 @@ class Fantasma:
 
     def mover_abajo(self):
         self.PosY_Fantasma += 1
-
-    def prueba(self):
-        print("funciona")
