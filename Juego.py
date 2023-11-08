@@ -19,7 +19,6 @@ class Juego:
         self.window.maxsize(1000, 600)
         self.window.title("Pacman")
         self.window.configure(bg="black")
-        print('Prueba')
         canva = tk.Canvas(self.window, width=1000, height=600, bg="black")
         foto = tk.PhotoImage(master=canva, file="Fondo.png")
         canva.create_image(500, 299, image=foto)
@@ -66,6 +65,24 @@ class Juego:
                 elif evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_ESCAPE:
                         pausa = not pausa
+                    elif evento.key == pygame.K_d:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas():
+                            self.pacman.mover_derecha()
+                            self.Tablero.puntaje()
+                    elif evento.key == pygame.K_a:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas():
+                            self.pacman.mover_izquierda()
+                            self.Tablero.puntaje()
+                    elif evento.key == pygame.K_w:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas():
+                            self.pacman.mover_arriba()
+                            self.Tablero.puntaje()
+                    elif evento.key == pygame.K_s:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas():
+                            self.pacman.mover_abajo()
+                            self.Tablero.puntaje()
+                    elif evento.key == pygame.K_k:
+                        self.imprimir_matriz()
             if pausa:
                 self.pantalla.fill((0, 0, 0))
                 self.dibujar_matriz()
@@ -75,7 +92,6 @@ class Juego:
                 pygame.display.update()
                 reloj = pygame.time.Clock()
                 reloj.tick(60)
-
 
 
     def dibujar_matriz(self):

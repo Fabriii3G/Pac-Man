@@ -47,21 +47,20 @@ class Matriz:
             print()
         print(f"PosicionX_Pacman:{self.pacman.PosX}, PosicionY_Pacman: {self.pacman.PosY}")
         print(f"Puntos: {self.puntos}")
-        #print(f"PosicionX_fantasma:{self.fantasma.PosX_Fantasma}, PosicionY_fantasma: {self.fantasma.PosY_Fantasma}")
-
         print("-------------------------------")
 
     # metodo de puntaje
     def puntaje(self):
         if self.matriz[self.pacman.PosY][self.pacman.PosX] == 1:
-            self.puntos += 1
+            self.puntos += 10
             self.matriz[self.pacman.PosY][self.pacman.PosX] = 4 # Elimina el punto de la celda
         elif self.matriz[self.pacman.PosY][self.pacman.PosX] == 3:
-            self.puntos += 5
+            self.puntos += 50
 
     def capsula(self):
         if self.matriz[self.pacman.PosY][self.pacman.PosX] == 1:
             self.comerFantasmas = True
+            self.puntos +=100
 
 
     # metodo que detecta si hay pared antes de hacer el movimiento
@@ -105,50 +104,19 @@ class Matriz:
                 direccion = random.choice(['Derecha', 'Izquierda', 'Abajo', 'Arriba'])
                 if direccion == 'Derecha' and self.fantasmas[i].PosX_Fantasma + 1 < columnas:
                     if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma + 1, self.fantasmas[i].PosY_Fantasma):
-                        self.fantasmas[i].PosX_Fantasma += 1
                         self.colision_pacman_y_fantasmas()
+                        self.fantasmas[i].PosX_Fantasma += 1
                 elif direccion == 'Izquierda' and self.fantasmas[i].PosX_Fantasma - 1 >= 0:
                     if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma - 1, self.fantasmas[i].PosY_Fantasma):
-                        self.fantasmas[i].PosX_Fantasma -= 1
                         self.colision_pacman_y_fantasmas()
+                        self.fantasmas[i].PosX_Fantasma -= 1
                 elif direccion == 'Abajo' and self.fantasmas[i].PosY_Fantasma + 1 < filas:
                     if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma, self.fantasmas[i].PosY_Fantasma + 1):
-                        self.fantasmas[i].PosY_Fantasma += 1
                         self.colision_pacman_y_fantasmas()
+                        self.fantasmas[i].PosY_Fantasma += 1
                 elif direccion == 'Arriba' and self.fantasmas[i].PosY_Fantasma - 1 >= 0:
                     if not self.detectar_colision_pared(self.fantasmas[i].PosX_Fantasma, self.fantasmas[i].PosY_Fantasma - 1):
-                        self.fantasmas[i].PosY_Fantasma -= 1
                         self.colision_pacman_y_fantasmas()
+                        self.fantasmas[i].PosY_Fantasma -= 1
                 i+=1
-                time.sleep(0.1)
-
-    # metodo para detectar las teclas en la consola
-    def teclas(self, tecla):
-        if tecla.char == 'd':
-            if not self.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.colision_pacman_y_fantasmas():
-                self.pacman.mover_derecha()
-                self.puntaje()
-            else:
-                print("Hay pared")
-        elif tecla.char == 'a':
-            if not self.detectar_colision_pared(self.pacman.PosX-1, self.pacman.PosY) and not self.colision_pacman_y_fantasmas():
-                self.pacman.mover_izquierda()
-                self.puntaje()
-            else:
-                print("Hay pared")
-        elif tecla.char == 'w':
-            if not self.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.colision_pacman_y_fantasmas():
-                self.pacman.mover_arriba()
-                self.puntaje()
-            else:
-                print("Hay pared")
-        elif tecla.char == 's':
-            if not self.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.colision_pacman_y_fantasmas():
-                self.pacman.mover_abajo()
-                self.puntaje()
-            else:
-                print("Hay pared")
-        elif tecla.char == 'k':
-            self.imprimir_matriz()
-        elif tecla == tecla.esc:
-            None
+                time.sleep(0.05)
