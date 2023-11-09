@@ -1,18 +1,20 @@
 import sys
 import threading
-import time
 import tkinter as tk
 import pygame
+from natsort import natsorted
 import tkinter.messagebox
+
 #Modelo de objetos de la clase juego
 class Juego:
     #Atributos de la clase juego
-    def __init__(self, Njuego, Tablero, Nivel, Score, pacman):
+    def __init__(self, Njuego, Tablero, Nivel, Score, pacman, Fantasmas):
         self.Njuego = Njuego
         self.Tablero = Tablero
         self.Nivel = Nivel
         self.Score = Score
         self.pacman = pacman
+        self.fantasmas = Fantasmas
 
     #Metodos de la clase juego
     def inicio(self):  # metodo de la ventana principal
@@ -33,7 +35,7 @@ class Juego:
         boton.place(x=440, y=290)
         # Boton Salon de la Fama
         salon = tk.PhotoImage(file="puntajes.png")
-        boton = tk.Button(self.window, image=salon, bg="black", command=self.salon_de_la_fama)
+        boton = tk.Button(self.window, image=salon, bg="black", command=self.scoreboard)
         boton.pack()
         boton.place(x=440, y=400)
         # Boton Acerca De
@@ -50,7 +52,6 @@ class Juego:
 
     def iniciar_juego(self): # metodo de la ventana de juego
         self.window.withdraw()
-
         pygame.init()
         self.pantalla = pygame.display.set_mode((1200, 780))
         pygame.display.set_caption("Pac-Man")
@@ -68,6 +69,9 @@ class Juego:
                     pygame.display.quit()
                     self.Tablero.finJuego = True
                     self.window.deiconify()
+                elif self.fantasmas == []:
+                    pygame.display.quit()
+                    self.juego_acabado()
                 elif evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_ESCAPE:
                         pausa = not pausa
@@ -108,11 +112,58 @@ class Juego:
                 reloj = pygame.time.Clock()
                 reloj.tick(60)
 
+    def juego_acabado(self):
+        self.ventana=tk.Tk()
+        self.ventana.minsize(500,400)
+        self.ventana.maxsize(500, 500)
+        self.nombre = tk.Entry(self.ventana, width=30, bg="white")
+        self.nombre.place(x=162, y=140)
+        boton = tk.Button(self.ventana, width=3, height=3, text='Enviar', command=lambda: [self.nombre_jugador(), self.scoreboard()])
+        boton.place(x=165, y=250)
+        self.ventana.focus_set()
+        self.ventana.mainloop()
+
+    def nombre_jugador(self):  # funcion que crea y edita el archivo txtaa
+        self.usuario = self.nombre.get()
+        print(self.usuario)
+        try:
+            with open("scoreboard.txt", "a") as file:
+                file.write(f"{self.Tablero.puntos}-{self.usuario},")
+                file.close()
+        except:
+            with open("scoreboard.txt", "w") as file:
+                file.write(f"{self.Tablero.puntos}-{self.usuario},")
+
+    def scoreboard(self):  # funcion que crea la ventana donde aparecen todos los puntajes
+        self.window.withdraw()
+        self.windo_Salon = tk.Toplevel()
+        self.windo_Salon.title("Salon de la fama")
+        self.windo_Salon.minsize(500, 500)
+        self.windo_Salon.maxsize(500, 500)
+        try:
+            file = open('scoreboard.txt', 'r')
+            read = file.read().split(',')
+            print(read)
+            top = natsorted(read, reverse=True)
+            print(top)
+            puesto1 = tk.Label(self.windo_Salon, text=f'{top[0]}', width=15, height=2, font=('Arial Black', 10), fg="white",
+                               bg="black")
+            puesto1.place(x=140, y=80)
+            puesto2 = tk.Label(self.windo_Salon, text=f'{top[1]}', width=15, height=2, font=('Arial Black', 10), fg="white",
+                               bg="black")
+            puesto2.place(x=140, y=120)
+            puesto3 = tk.Label(self.windo_Salon, text=f'{top[2]}', width=15, height=2, font=('Arial Black', 10), fg="white",
+                               bg="black")
+            puesto3.place(x=140, y=160)
+        except:
+            None
+
+        self.windo_Salon.mainloop()
+
     def capsulaJuego(self):
         hilo=threading.Thread(target=self.Tablero.capsula)
         hilo.daemon = True
         hilo.start()
-
 
     def dibujar_matriz(self):
         pacman_imagen = pygame.image.load("pacman.png")
@@ -144,17 +195,6 @@ class Juego:
                     self.pantalla.blit(cereza_imagen, (columna * 30, fila * 30))
                 elif self.Tablero.matriz[fila][columna] == 2 :
                     self.pantalla.blit(capsula_imagen, (columna * 30, fila * 30))
-
-    def salon_de_la_fama(self):  # metodo de la ventana Salon de la fama
-        self.window.withdraw()
-        self.salon = tk.Toplevel()
-        self.salon.minsize(1000, 600)
-        self.salon.maxsize(1000, 600)
-        self.salon.title("Salon de la Fama")
-        self.salon.configure(bg="black")
-        botonSalir = tk.Button(self.salon, height=1, width=5, text="Salir", command=self.salir_salon)
-        botonSalir.place(x=428, y=465)
-        self.salon.mainloop()
 
     def acerca_de(self):  # metodo de la ventana Acerca De
         self.window.withdraw()
@@ -198,6 +238,3 @@ class Juego:
     def salir_ayuda(self): # metodo de retornar a ventana principal
         self.ayuda.withdraw()
         self.window.deiconify()
-
-
-

@@ -2,15 +2,6 @@ import random
 import time
 import threading
 
-# funcionamiento de la matriz:
-# 0: Pared
-# 1: Alimento/Puntos
-
-# tareas 6 noviembre
-# crear metodos de que pacman pueda comerse a los fantasmas
-# tratar de empezar a graficar el juego
-# entender bien el funcionamiento de los diferentes tipos de alimentos
-
 class Matriz:
     def __init__(self, matriz, Pacman, Fantasmas):
         self.matriz = matriz
@@ -20,8 +11,7 @@ class Matriz:
         self.posicionesPacman= [self.pacman.PosX, self.pacman.PosY]
         self.comerFantasmas = False
         self.finJuego = False
-        self.pausa=False
-        #self.posicionesFantama = [self.fantasma.PosX_Fantasma, self.fantasma.PosY_Fantasma]
+        self.pausa = False
 
     # metodo que actualiza la matriz
     def actualizar_matriz(self):
@@ -87,6 +77,7 @@ class Matriz:
                     self.matriz[self.fantasmas[i].PosY_Fantasma][self.fantasmas[i].PosX_Fantasma] = 4
                     self.fantasmas.remove(self.fantasmas[i])
                     print("Fantasma muerto")
+                    self.puntos += 200
                     return True
                 i += 1
 

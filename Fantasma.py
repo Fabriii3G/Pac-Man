@@ -1,4 +1,3 @@
-import random
 #Modelo de objetos de la clase Fantasma
 class Fantasma:
     #Atributos de la clase fantasma
