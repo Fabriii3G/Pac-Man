@@ -15,7 +15,6 @@ class Juego:
         self.fantasmas = Fantasmas
         self.ventana_ispector = None
 
-
     #Metodos de la clase juego
     def inicio(self):  # metodo de la ventana principal
         self.window = tk.Tk()
@@ -56,15 +55,28 @@ class Juego:
         self.pantalla = pygame.display.set_mode((1200, 780))
         pygame.display.set_caption("Pac-Man")
         self.fuente = pygame.font.Font("Minecraftia-Regular.ttf", 15)
+        # Label para el puntaje
         label = self.fuente.render("Puntaje: 0", True, (255, 255, 255))
         label_rect = label.get_rect()
-        label_rect.topright = (1010, 10)
+        label_rect.topright = (1010, 30)
+        # Label para el nivel
         label_nivel = self.fuente.render(f"Nivel: {self.Tablero.nivel}", True, (255, 255, 255))
         label_nivel_rect = label_nivel.get_rect()
-        label_nivel_rect.topright = (1010, 30)
-        self.pausa = True
+        label_nivel_rect.topright = (980, 10)
+        # Label que indica si puede comer fantasmas
+        label_comer = self.fuente.render(f"Puedes comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
+        label_comer_rect = label_comer.get_rect()
+        label_comer_rect.topright = (1173, 50)
+        self.fuente1 = pygame.font.Font("Minecraftia-Regular.ttf", 12)
+        # Label para indicar como mutear
+        label_music = self.fuente1.render("*Barra espaciadora para mutear*", True, (255, 255, 255))
+        label_music_rect = label_comer.get_rect()
+        label_music_rect.topright = (1177, 750)
+        # Codigo donde se carga la musica
         pygame.mixer.music.load("Pac_man_musica.mp3")
         pygame.mixer.music.play(-1)
+        # Variables
+        self.pausa = True
         musica = False
         while True:
             for evento in pygame.event.get():
@@ -79,46 +91,44 @@ class Juego:
                 elif self.Tablero.fantasmas == []:
                     self.Tablero.finJuego = True
                 elif evento.type == pygame.KEYDOWN:
-                    if evento.key == pygame.K_ESCAPE:
+                    if evento.key == pygame.K_ESCAPE: #Detecta tecla escape, poner pausa
                         self.pausa_('')
                         self.Tablero.imprimir_matriz()
-                    elif evento.key == pygame.K_j:
+                    elif evento.key == pygame.K_j: #Detecta tecla j, modo inspector
                         self.pausa_('')
-                        self.Tablero.imprimir_matriz()
                         self.inspector()
-                    elif evento.key == pygame.K_d:
+                    elif evento.key == pygame.K_d: #Detecta tecla d, mover derecha
                         if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_derecha()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
-                    elif evento.key == pygame.K_a:
+                    elif evento.key == pygame.K_a: #Detecta tecla a, mover izquierda
                         if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_izquierda()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
-                    elif evento.key == pygame.K_w:
+                    elif evento.key == pygame.K_w: #Detecta tecla 2, mover arriba
                         if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_arriba()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
-                    elif evento.key == pygame.K_s:
+                    elif evento.key == pygame.K_s: #Detecta tecla s, mover abajo
                         if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_abajo()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
-                    elif evento.key == pygame.K_SPACE:
+                    elif evento.key == pygame.K_SPACE: #Detecta tecla espacio, mutear musica
                         if musica:
                             pygame.mixer.music.stop()
                             musica = False
                         else:
-                            pygame.mixer.music.play()
+                            pygame.mixer.music.play(-1)
                             musica = True
-                    elif evento.key == pygame.K_k:
-                        self.imprimir_matriz()
+            # Detecta si esta en pausa
             if self.pausa:
                 self.pantalla.fill((0, 0, 0))
                 self.dibujar_matriz()
@@ -126,24 +136,35 @@ class Juego:
                 label = self.fuente.render(f"Puntaje: {self.Tablero.puntos}", True, (255, 255, 255))
                 self.pantalla.blit(label, label_rect)
                 self.pantalla.blit(label_nivel, label_nivel_rect)
+                self.pantalla.blit(label_comer, label_comer_rect)
+                self.pantalla.blit(label_music, label_music_rect)
                 pygame.display.update()
                 reloj = pygame.time.Clock()
                 reloj.tick(60)
+            # Detecta si el pacman puede comer fantasmas
+            if self.Tablero.comerFantasmas:
+                label_comer = self.fuente.render(f"Puedes comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
+                self.pantalla.blit(label_comer, label_comer_rect)
+            if not self.Tablero.comerFantasmas:
+                label_comer = self.fuente.render(f"Puedes comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
+                self.pantalla.blit(label_comer, label_comer_rect)
+            # Detecta si es el final del juego
             if self.Tablero.finJuego:
                 self.Tablero.reiniciar()
                 label_nivel = self.fuente.render(f"Nivel: {self.Tablero.nivel}", True, (255, 255, 255))
                 self.pantalla.blit(label_nivel, label_nivel_rect)
+                # Detecta la lista vacia de fantasmas al final
                 if self.Tablero.fantasmas == []:
                     pygame.display.quit()
                     self.juego_acabado()
 
-    def pausa_(self, ev):
+    def pausa_(self, ev): # metodo de pausa
         self.pausa = not self.pausa
         self.Tablero.pausa = not self.Tablero.pausa
         if self.ventana_ispector:
             self.ventana_ispector.destroy()
 
-    def inspector(self):
+    def inspector(self): # metodo de la ventana inspector
         self.ventana_ispector = tk.Toplevel()
         self.ventana_ispector.title("Inspector")
         canvas = tk.Canvas(self.ventana_ispector, width=1000, height=800, bg='black')
@@ -158,10 +179,11 @@ class Juego:
             return
         self.ventana_ispector.mainloop()
 
-    def juego_acabado(self):
+    def juego_acabado(self): # metodo de ventana de juego acabado
         self.ventana=tk.Tk()
         self.ventana.minsize(500,500)
         self.ventana.maxsize(500, 500)
+        self.ventana.title("Inserta tu nombre")
         canva = tk.Canvas(self.ventana, width=500, height=500, bg="black")
         foto = tk.PhotoImage(master=canva, file="Nickname.png")
         canva.create_image(252, 250, image=foto)
@@ -174,7 +196,7 @@ class Juego:
         self.ventana.focus_set()
         self.ventana.mainloop()
 
-    def nombre_jugador(self):  # funcion que crea y edita el archivo txtaa
+    def nombre_jugador(self):  # metodo que crea y edita el archivo txt
         self.usuario = self.nombre.get()
         print(self.usuario)
         try:
@@ -185,7 +207,7 @@ class Juego:
             with open("scoreboard.txt", "w") as file:
                 file.write(f"{self.Tablero.puntos}-{self.usuario},")
 
-    def scoreboard(self):  # funcion que crea la ventana donde aparecen todos los puntajes
+    def scoreboard(self):  # metodo que crea la ventana donde aparecen todos los puntajes
         self.window.withdraw()
         self.windo_Salon = tk.Toplevel()
         self.windo_Salon.title("Salon de la fama")
@@ -217,7 +239,7 @@ class Juego:
         botonSalir.place(x=10, y=10)
         self.windo_Salon.mainloop()
 
-    def capsulaJuego(self):
+    def capsulaJuego(self): # metodo para el poder de comer fantasmas
         hilo=threading.Thread(target=self.Tablero.capsula)
         hilo.daemon = True
         hilo.start()

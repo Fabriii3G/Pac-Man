@@ -7,14 +7,13 @@ class Pacman:
         self.PosY = PosY
         self.Velocidad = Velocidad
     #Metodos de la clase pacman
-
-    def set_estado(self, estado):
+    def set_estado(self, estado): # metodo de definir estado de pacman
         self.Estado=estado
-    def mover_izquierda(self):
+    def mover_izquierda(self): # metodo mover izquierda
         self.PosX-=1
-    def mover_derecha(self):
+    def mover_derecha(self): # metodo mover derecha
         self.PosX+=1
-    def mover_arriba(self):
+    def mover_arriba(self): # metodo mover arriba
         self.PosY-=1
-    def mover_abajo(self):
+    def mover_abajo(self): # metodo mover abajo
        self.PosY+=1
