@@ -60,6 +60,18 @@ class Juego:
         label_rect = label.get_rect()
         label_rect.topright = (1010, 10)
         pausa = True
+        """pygame.mixer.music.load("Pac_man_musica.mp3")
+        pygame.mixer.music.play(-1)
+
+        def actualizar_volumen(valor):
+            volumen = float(valor) / 100.0
+            pygame.mixer.music.set_volume(volumen)
+
+        # Slider para configurar el volumen de la música
+        slider_volumen = tk.Scale(self.window, from_=100, to=0, orient="vertical", command=actualizar_volumen,
+                                  bg=("dark red"), fg="white", )
+        slider_volumen.set(50)  # Establecer el valor inicial del volumen al 50%
+        slider_volumen.place(x=400, y=100)"""
         while True:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
@@ -114,12 +126,17 @@ class Juego:
 
     def juego_acabado(self):
         self.ventana=tk.Tk()
-        self.ventana.minsize(500,400)
+        self.ventana.minsize(500,500)
         self.ventana.maxsize(500, 500)
+        canva = tk.Canvas(self.ventana, width=500, height=500, bg="black")
+        foto = tk.PhotoImage(master=canva, file="Nickname.png")
+        canva.create_image(252, 250, image=foto)
+        canva.pack()
+        canva.place(x=0, y=0)
         self.nombre = tk.Entry(self.ventana, width=30, bg="white")
-        self.nombre.place(x=162, y=140)
-        boton = tk.Button(self.ventana, width=3, height=3, text='Enviar', command=lambda: [self.nombre_jugador(), self.scoreboard()])
-        boton.place(x=165, y=250)
+        self.nombre.place(x=162, y=311)
+        boton = tk.Button(self.ventana, width=6, height=2, text='Enviar', command=lambda: [self.nombre_jugador(), self.scoreboard()])
+        boton.place(x=225, y=410)
         self.ventana.focus_set()
         self.ventana.mainloop()
 
@@ -162,7 +179,8 @@ class Juego:
             puesto3.place(x=140, y=160)
         except:
             None
-
+        botonSalir = tk.Button(self.windo_Salon, height=1, width=5, text="Salir", command=self.salir_salon)
+        botonSalir.place(x=10, y=10)
         self.windo_Salon.mainloop()
 
     def capsulaJuego(self):
@@ -220,12 +238,17 @@ class Juego:
     def ayuda(self):  # metodo de la ventana Ayuda
         self.window.withdraw()
         self.ayuda = tk.Toplevel()
-        self.ayuda.minsize(1000, 600)
-        self.ayuda.maxsize(1000, 600)
+        self.ayuda.minsize(900, 500)
+        self.ayuda.maxsize(900, 500)
         self.ayuda.title("self.ayuda")
         self.ayuda.configure(bg="black")
+        canva = tk.Canvas(self.ayuda, width=900, height=500, bg="black")
+        foto = tk.PhotoImage(master=canva, file="Ayuda_fondo.png")
+        canva.create_image(450, 250, image=foto)
+        canva.pack()
+        canva.place(x=0, y=0)
         botonSalir = tk.Button(self.ayuda, height=1, width=5, text="Salir", command=self.salir_ayuda)
-        botonSalir.place(x=428, y=465)
+        botonSalir.place(x=10, y=10)
         self.ayuda.mainloop()
 
     def salir_juego(self): # metodo de retornar a ventana principal
@@ -233,8 +256,9 @@ class Juego:
         self.window.deiconify()
 
     def salir_salon(self): # metodo de retornar a ventana principal
-        self.salon.withdraw()
+        self.windo_Salon.withdraw()
         self.window.deiconify()
+
 
     def salir_acerca(self): # metodo de retornar a ventana principal
         self.acerca.withdraw()
