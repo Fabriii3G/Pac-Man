@@ -9,14 +9,14 @@ class Fantasma:
         self.Velocidad_Fantasma = Velocidad_Fantasma
 
     #Metodos de la clase fantasma
-    def mover_izquierda(self):
+    def mover_izquierda(self): # metodo mover izquierda
         self.PosY_Fantasma -= 1
 
-    def mover_derecha(self):
+    def mover_derecha(self): # metodo mover derecha
         self.PosX_Fantasma += 1
 
-    def mover_arriba(self):
+    def mover_arriba(self): # metodo mover arriba
         self.PosY_Fantasma -= 1
 
-    def mover_abajo(self):
+    def mover_abajo(self): # metodo mover abajo
         self.PosY_Fantasma += 1
