@@ -64,14 +64,14 @@ class Juego:
         label_nivel_rect = label_nivel.get_rect()
         label_nivel_rect.topright = (980, 10)
         # Label que indica si puede comer fantasmas
-        label_comer = self.fuente.render(f"Puedes comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
+        label_comer = self.fuente.render(f"Comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
         label_comer_rect = label_comer.get_rect()
-        label_comer_rect.topright = (1173, 50)
+        label_comer_rect.topright = (1100, 50)
         self.fuente1 = pygame.font.Font("Minecraftia-Regular.ttf", 12)
         # Label para indicar como mutear
         label_music = self.fuente1.render("*Barra espaciadora para mutear*", True, (255, 255, 255))
         label_music_rect = label_comer.get_rect()
-        label_music_rect.topright = (1177, 750)
+        label_music_rect.topright = (1115, 750)
         # Codigo donde se carga la musica
         pygame.mixer.music.load("Pac_man_musica.mp3")
         pygame.mixer.music.play(-1)
@@ -143,10 +143,10 @@ class Juego:
                 reloj.tick(60)
             # Detecta si el pacman puede comer fantasmas
             if self.Tablero.comerFantasmas:
-                label_comer = self.fuente.render(f"Puedes comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
+                label_comer = self.fuente.render(f"Comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
                 self.pantalla.blit(label_comer, label_comer_rect)
             if not self.Tablero.comerFantasmas:
-                label_comer = self.fuente.render(f"Puedes comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
+                label_comer = self.fuente.render(f"Comer fantasmas: {self.Tablero.comer}", True, (255, 255, 255))
                 self.pantalla.blit(label_comer, label_comer_rect)
             # Detecta si es el final del juego
             if self.Tablero.finJuego:
