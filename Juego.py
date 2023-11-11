@@ -274,7 +274,7 @@ class Juego:
         self.ayuda = tk.Toplevel()
         self.ayuda.minsize(900, 500)
         self.ayuda.maxsize(900, 500)
-        self.ayuda.title("self.ayuda")
+        self.ayuda.title("Ayuda")
         self.ayuda.configure(bg="black")
         canva = tk.Canvas(self.ayuda, width=900, height=500, bg="black")
         foto = tk.PhotoImage(master=canva, file="Ayuda_fondo.png")
