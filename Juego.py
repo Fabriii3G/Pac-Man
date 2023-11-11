@@ -244,7 +244,7 @@ class Juego:
         hilo.daemon = True
         hilo.start()
 
-    def dibujar_matriz(self):
+    def dibujar_matriz(self): # metodo que grafica la matriz en la ventana de pygame
         pacman_imagen = pygame.image.load("pacman.png")
         fantasmaR_imagen = pygame.image.load("rojo.png")
         fantasmaN_imagen = pygame.image.load("naranja (1).png")
