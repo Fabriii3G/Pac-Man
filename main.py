@@ -3,6 +3,7 @@ from Juego import Juego
 from Pacman import Pacman
 from Fantasma import Fantasma
 
+
 # funcionamiento de la matriz:
 # 0: Pared
 # 1: Alimento/Puntos
