@@ -3,6 +3,7 @@ import threading
 import tkinter as tk
 import pygame
 from natsort import natsorted
+from PIL import Image, ImageTk
 import tkinter.messagebox
 
 #Modelo de objetos de la clase juego
@@ -15,6 +16,7 @@ class Juego:
         self.Score = Score
         self.pacman = pacman
         self.fantasmas = Fantasmas
+        self.ventana_ispector = None
 
     #Metodos de la clase juego
     def inicio(self):  # metodo de la ventana principal
@@ -59,7 +61,7 @@ class Juego:
         label = self.fuente.render("Puntaje: 0", True, (255, 255, 255))
         label_rect = label.get_rect()
         label_rect.topright = (1010, 10)
-        pausa = True
+        self.pausa = True
         """pygame.mixer.music.load("Pac_man_musica.mp3")
         pygame.mixer.music.play(-1)
 
@@ -79,42 +81,46 @@ class Juego:
                     sys.exit()
                 elif self.pacman.Estado == "Muerto":
                     pygame.display.quit()
+                    sys.exit()
                     self.Tablero.finJuego = True
                     self.window.deiconify()
-                elif self.fantasmas == []:
-                    pygame.display.quit()
-                    self.juego_acabado()
+                elif self.Tablero.fantasmas == []:
+                    self.Tablero.finJuego = True
                 elif evento.type == pygame.KEYDOWN:
                     if evento.key == pygame.K_ESCAPE:
-                        pausa = not pausa
-                        self.Tablero.pausa = not self.Tablero.pausa
+                        self.pausa_('')
+                        self.Tablero.imprimir_matriz()
+                    elif evento.key == pygame.K_j:
+                        self.pausa_('')
+                        self.Tablero.imprimir_matriz()
+                        self.inspector()
                     elif evento.key == pygame.K_d:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_derecha()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_a:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_izquierda()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_w:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas() and pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_arriba()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_s:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas() and pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_abajo()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_k:
                         self.imprimir_matriz()
-            if pausa:
+            if self.pausa:
                 self.pantalla.fill((0, 0, 0))
                 self.dibujar_matriz()
                 self.Tablero.actualizar_matriz()
@@ -123,6 +129,32 @@ class Juego:
                 pygame.display.update()
                 reloj = pygame.time.Clock()
                 reloj.tick(60)
+            if self.Tablero.finJuego:
+                self.Tablero.reiniciar()
+                if self.Tablero.fantasmas == []:
+                    pygame.display.quit()
+                    self.juego_acabado()
+
+    def pausa_(self, ev):
+        self.pausa = not self.pausa
+        self.Tablero.pausa = not self.Tablero.pausa
+        if self.ventana_ispector:
+            self.ventana_ispector.destroy()
+
+    def inspector(self):
+        self.ventana_ispector = tk.Toplevel()
+        self.ventana_ispector.title("Inspector")
+        canvas = tk.Canvas(self.ventana_ispector, width=1000, height=800, bg='black')
+        canvas.pack()
+        lado = 30
+        self.ventana_ispector.bind('<Escape>', self.pausa_)
+        for i, fila in enumerate(self.Tablero.matriz):
+            for j, valor in enumerate(fila):
+                x, y = j * lado + lado // 2, i * lado + lado // 2
+                canvas.create_text(x, y, text=valor, fill="white", font=("Arial", 12))
+        if self.pausa:
+            return
+        self.ventana_ispector.mainloop()
 
     def juego_acabado(self):
         self.ventana=tk.Tk()
@@ -258,7 +290,6 @@ class Juego:
     def salir_salon(self): # metodo de retornar a ventana principal
         self.windo_Salon.withdraw()
         self.window.deiconify()
-
 
     def salir_acerca(self): # metodo de retornar a ventana principal
         self.acerca.withdraw()
