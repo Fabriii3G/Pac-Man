@@ -3,6 +3,9 @@ import threading
 import tkinter as tk
 import pygame
 from natsort import natsorted
+from PIL import Image, ImageTk
+import tkinter.messagebox
+
 #Modelo de objetos de la clase juego
 class Juego:
     #Atributos de la clase juego
@@ -14,7 +17,6 @@ class Juego:
         self.pacman = pacman
         self.fantasmas = Fantasmas
         self.ventana_ispector = None
-
 
     #Metodos de la clase juego
     def inicio(self):  # metodo de la ventana principal
@@ -50,7 +52,7 @@ class Juego:
         boton.place(x=640, y=350)
         self.window.mainloop()
 
-    def iniciar_juego(self): # metodo de la ventana de juego
+    def iniciar_juego(self):  # metodo de la ventana de juego
         self.window.withdraw()
         pygame.init()
         self.pantalla = pygame.display.set_mode((1200, 780))
@@ -63,9 +65,6 @@ class Juego:
         label_nivel_rect = label_nivel.get_rect()
         label_nivel_rect.topright = (1010, 30)
         self.pausa = True
-        pygame.mixer.music.load("Pac_man_musica.mp3")
-        pygame.mixer.music.play(-1)
-        musica = False
         while True:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
@@ -87,36 +86,33 @@ class Juego:
                         self.Tablero.imprimir_matriz()
                         self.inspector()
                     elif evento.key == pygame.K_d:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1,
+                                                                    self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_derecha()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_a:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1,
+                                                                    self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_izquierda()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_w:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX,
+                                                                    self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_arriba()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_s:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX,
+                                                                    self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_abajo()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
-                    elif evento.key == pygame.K_SPACE:
-                        if musica:
-                            pygame.mixer.music.stop()
-                            musica = False
-                        else:
-                            pygame.mixer.music.play()
-                            musica = True
                     elif evento.key == pygame.K_k:
                         self.imprimir_matriz()
             if self.pausa:
@@ -274,7 +270,7 @@ class Juego:
         self.ayuda = tk.Toplevel()
         self.ayuda.minsize(900, 500)
         self.ayuda.maxsize(900, 500)
-        self.ayuda.title("Ayuda")
+        self.ayuda.title("self.ayuda")
         self.ayuda.configure(bg="black")
         canva = tk.Canvas(self.ayuda, width=900, height=500, bg="black")
         foto = tk.PhotoImage(master=canva, file="Ayuda_fondo.png")
