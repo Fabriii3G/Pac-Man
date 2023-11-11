@@ -52,7 +52,7 @@ class Juego:
         boton.place(x=640, y=350)
         self.window.mainloop()
 
-    def iniciar_juego(self): # metodo de la ventana de juego
+    def iniciar_juego(self):  # metodo de la ventana de juego
         self.window.withdraw()
         pygame.init()
         self.pantalla = pygame.display.set_mode((1200, 780))
@@ -61,19 +61,10 @@ class Juego:
         label = self.fuente.render("Puntaje: 0", True, (255, 255, 255))
         label_rect = label.get_rect()
         label_rect.topright = (1010, 10)
+        label_nivel = self.fuente.render(f"Nivel: {self.Tablero.nivel}", True, (255, 255, 255))
+        label_nivel_rect = label_nivel.get_rect()
+        label_nivel_rect.topright = (1010, 30)
         self.pausa = True
-        """pygame.mixer.music.load("Pac_man_musica.mp3")
-        pygame.mixer.music.play(-1)
-
-        def actualizar_volumen(valor):
-            volumen = float(valor) / 100.0
-            pygame.mixer.music.set_volume(volumen)
-
-        # Slider para configurar el volumen de la música
-        slider_volumen = tk.Scale(self.window, from_=100, to=0, orient="vertical", command=actualizar_volumen,
-                                  bg=("dark red"), fg="white", )
-        slider_volumen.set(50)  # Establecer el valor inicial del volumen al 50%
-        slider_volumen.place(x=400, y=100)"""
         while True:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
@@ -95,25 +86,29 @@ class Juego:
                         self.Tablero.imprimir_matriz()
                         self.inspector()
                     elif evento.key == pygame.K_d:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX + 1,
+                                                                    self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_derecha()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_a:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1, self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX - 1,
+                                                                    self.pacman.PosY) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_izquierda()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_w:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX,
+                                                                    self.pacman.PosY - 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_arriba()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
                     elif evento.key == pygame.K_s:
-                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX, self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
+                        if not self.Tablero.detectar_colision_pared(self.pacman.PosX,
+                                                                    self.pacman.PosY + 1) and not self.Tablero.colision_pacman_y_fantasmas() and self.pausa:
                             self.Tablero.colision_pacman_y_fantasmas()
                             self.pacman.mover_abajo()
                             self.Tablero.puntaje()
@@ -126,11 +121,14 @@ class Juego:
                 self.Tablero.actualizar_matriz()
                 label = self.fuente.render(f"Puntaje: {self.Tablero.puntos}", True, (255, 255, 255))
                 self.pantalla.blit(label, label_rect)
+                self.pantalla.blit(label_nivel, label_nivel_rect)
                 pygame.display.update()
                 reloj = pygame.time.Clock()
                 reloj.tick(60)
             if self.Tablero.finJuego:
                 self.Tablero.reiniciar()
+                label_nivel = self.fuente.render(f"Nivel: {self.Tablero.nivel}", True, (255, 255, 255))
+                self.pantalla.blit(label_nivel, label_nivel_rect)
                 if self.Tablero.fantasmas == []:
                     pygame.display.quit()
                     self.juego_acabado()
