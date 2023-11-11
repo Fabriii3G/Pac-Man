@@ -3,8 +3,6 @@ import threading
 import tkinter as tk
 import pygame
 from natsort import natsorted
-
-
 #Modelo de objetos de la clase juego
 class Juego:
     #Atributos de la clase juego
@@ -16,6 +14,7 @@ class Juego:
         self.pacman = pacman
         self.fantasmas = Fantasmas
         self.ventana_ispector = None
+
 
     #Metodos de la clase juego
     def inicio(self):  # metodo de la ventana principal
@@ -60,19 +59,10 @@ class Juego:
         label = self.fuente.render("Puntaje: 0", True, (255, 255, 255))
         label_rect = label.get_rect()
         label_rect.topright = (1010, 10)
+        label_nivel = self.fuente.render(f"Nivel: {self.Tablero.nivel}", True, (255, 255, 255))
+        label_nivel_rect = label_nivel.get_rect()
+        label_nivel_rect.topright = (1010, 30)
         self.pausa = True
-        """pygame.mixer.music.load("Pac_man_musica.mp3")
-        pygame.mixer.music.play(-1)
-
-        def actualizar_volumen(valor):
-            volumen = float(valor) / 100.0
-            pygame.mixer.music.set_volume(volumen)
-
-        # Slider para configurar el volumen de la música
-        slider_volumen = tk.Scale(self.window, from_=100, to=0, orient="vertical", command=actualizar_volumen,
-                                  bg=("dark red"), fg="white", )
-        slider_volumen.set(50)  # Establecer el valor inicial del volumen al 50%
-        slider_volumen.place(x=400, y=100)"""
         while True:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
@@ -125,11 +115,14 @@ class Juego:
                 self.Tablero.actualizar_matriz()
                 label = self.fuente.render(f"Puntaje: {self.Tablero.puntos}", True, (255, 255, 255))
                 self.pantalla.blit(label, label_rect)
+                self.pantalla.blit(label_nivel, label_nivel_rect)
                 pygame.display.update()
                 reloj = pygame.time.Clock()
                 reloj.tick(60)
             if self.Tablero.finJuego:
                 self.Tablero.reiniciar()
+                label_nivel = self.fuente.render(f"Nivel: {self.Tablero.nivel}", True, (255, 255, 255))
+                self.pantalla.blit(label_nivel, label_nivel_rect)
                 if self.Tablero.fantasmas == []:
                     pygame.display.quit()
                     self.juego_acabado()
