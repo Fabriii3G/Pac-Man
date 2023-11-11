@@ -63,6 +63,9 @@ class Juego:
         label_nivel_rect = label_nivel.get_rect()
         label_nivel_rect.topright = (1010, 30)
         self.pausa = True
+        pygame.mixer.music.load("Pac_man_musica.mp3")
+        pygame.mixer.music.play(-1)
+        musica = False
         while True:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
@@ -107,6 +110,13 @@ class Juego:
                             self.pacman.mover_abajo()
                             self.Tablero.puntaje()
                             self.capsulaJuego()
+                    elif evento.key == pygame.K_SPACE:
+                        if musica:
+                            pygame.mixer.music.stop()
+                            musica = False
+                        else:
+                            pygame.mixer.music.play()
+                            musica = True
                     elif evento.key == pygame.K_k:
                         self.imprimir_matriz()
             if self.pausa:
