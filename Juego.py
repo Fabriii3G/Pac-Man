@@ -3,8 +3,7 @@ import threading
 import tkinter as tk
 import pygame
 from natsort import natsorted
-from PIL import Image, ImageTk
-import tkinter.messagebox
+
 
 #Modelo de objetos de la clase juego
 class Juego:
