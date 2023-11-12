@@ -37,9 +37,9 @@ class Matriz:
     # metodo que imprime la matriz
     def imprimir_matriz(self):
         self.actualizar_matriz()
-        for fila in self.matriz:
-            for elemento in fila:
-                print(elemento, end="\t")
+        for n in self.matriz:
+            for j in n:
+                print(j, end="\t")
             print()
         print(f"PosicionX_Pacman:{self.pacman.PosX}, PosicionY_Pacman: {self.pacman.PosY}")
         print(f"Puntos: {self.puntos}")
